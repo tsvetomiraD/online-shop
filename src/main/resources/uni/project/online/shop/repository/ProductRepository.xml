@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="uni.project.online.shop.repository.ProductRepository">
+
+    <select id="getProducts" resultType="Product">
+        SELECT p.*, t.name AS type, c.name AS category, b.name AS brand, tg.name AS targetGroup
+        FROM product p
+        LEFT JOIN type t ON p.type_id = t.id
+        LEFT JOIN category c ON p.category_id = c.id
+        LEFT JOIN brand b ON p.brand_id = b.id
+        LEFT JOIN target_group tg ON p.target_group_id = tg.id
+        WHERE
+        <if test="type != null"> t.name = #{type} AND </if>
+        <if test="rate != null"> p.rate >= #{rate} AND </if>
+        <if test="price != null"> #{price} >= p.price AND </if>
+        <if test="brand != null"> b.name = #{brand} AND </if>
+        <if test="targetGroup != null"> tg.name = #{targetGroup} AND </if>
+        c.name = #{category}
+        ORDER BY ${by} ${ascOrDesc}
+    </select>
+
+</mapper>
