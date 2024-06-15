@@ -73,6 +73,7 @@ public interface ProductRepository { //todo add left joins
             "LEFT JOIN product_rate pr ON pr.product_id = p.id " +
             "WHERE p.id = #{id}" )
     AvgRating getRate(Long id);
+
     @Update("UPDATE product SET rate = #{rate} " +
             "WHERE id = #{id}")
     void setRate(Long id, double rate);

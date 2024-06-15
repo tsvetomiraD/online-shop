@@ -42,11 +42,6 @@ public class RevolutService {
         return requestService.request(null, path, "GET", OrderResponse.class, getHeaders(token));
     }
 
-    public void editCustomer(CreateCustomer body, String customerId) {
-        String path = customerPath + "/" + customerId;
-        requestService.request(body, path, "PATCH", null, getHeaders(token));
-    }
-
     public CustomerPaymentMethods getCustomerPaymentMethods(String customerId) {
         String path = customerPath + "/" + customerId + "/payment-methods";
         return requestService.request(null, path, "GET", CustomerPaymentMethods.class, getHeaders(token));

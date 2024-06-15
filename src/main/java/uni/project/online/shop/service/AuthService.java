@@ -128,10 +128,6 @@ public class AuthService {
         emailService.sendAccountActivation(token, user.getEmail());
     }
 
-    public String encodePassword(String password) {
-        return PasswordEncoder.encode(password);
-    }
-
     public boolean completeRegistration(String token) {
         User user = userRepository.getUserByActivationToken(token);
         LocalDateTime to = userRepository.getExpiration(token);
@@ -152,12 +148,13 @@ public class AuthService {
         String code = generatePromoCode();
         while (userRepository.checkCode(code) != null)
             code = generatePromoCode();
-
-        LocalDateTime expiration = LocalDateTime.now().minusMonths(1);
-        //userRepository.addUserPromoCode(user.getId(), code, expiration);
-        //emailService.sendPromoCode(code, user.getEmail());
         return true;
     }
+
+    public String encodePassword(String password) {
+        return PasswordEncoder.encode(password);
+    }
+
     private String generatePromoCode() {
         Random secureRandom = new SecureRandom();
 

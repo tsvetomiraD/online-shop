@@ -22,6 +22,6 @@ public class UserService {
     }
 
     public List<PurchaseHistory> getUserPurchases(Long userId) {
-        return null;//todo ask how
+        return userRepository.getUserPurchaseHistory(userId);//todo ask how
     }
 }

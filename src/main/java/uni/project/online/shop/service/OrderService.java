@@ -9,7 +9,6 @@ import uni.project.online.shop.model.revolut.*;
 import uni.project.online.shop.repository.*;
 import uni.project.online.shop.util.GetStatus;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;

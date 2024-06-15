@@ -49,8 +49,4 @@ public class PayPalService {
         String path = url +"v2/checkout/orders";
         return requestService.request(body, path, "POST", PayPalOrderResponse.class, getHeaders());
     }
-    public PayPalOrderResponse checkOrderStatus(String orderId) {
-        String path = url + "v2/checkout/orders/" + orderId;
-        return requestService.request(null, path, "GET", PayPalOrderResponse.class, getHeaders());
-    }
 }

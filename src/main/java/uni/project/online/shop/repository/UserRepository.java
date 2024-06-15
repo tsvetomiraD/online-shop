@@ -1,9 +1,11 @@
 package uni.project.online.shop.repository;
 
 import org.apache.ibatis.annotations.*;
+import uni.project.online.shop.model.PurchaseHistory;
 import uni.project.online.shop.model.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Mapper
 public interface UserRepository {
@@ -56,4 +58,7 @@ public interface UserRepository {
 
     @Update("UPDATE user SET customer_id = customerId WHERE id = #{id}")
     void editUserCustomerId(User user);
+
+    @Select("SELECT date_created, price, status, id FROM order WHERE user_id = #{userId}")
+    List<PurchaseHistory> getUserPurchaseHistory(Long userId);
 }
