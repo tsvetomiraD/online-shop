@@ -1,5 +1,6 @@
 package uni.project.online.shop.service;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
 import uni.project.online.shop.model.*;
@@ -41,10 +42,8 @@ public class OrderService {
             Product product = productRepository.getProduct(item.getProductId());
             if (product.getQuantity() < item.getQuantity())
                 throw new RuntimeException("No enough quantity for item " + product.getName());
-            orderRepository.addOrderProduct(item.getProductId(), item.getQuantity(), order.getId());
             aggregatedAmount += product.getPrice();
         }
-
         double price = order.getCode() != null ? checkCode(aggregatedAmount, order.getCode()).getTotal() : aggregatedAmount;
 
         OrderResponse orderResponse;
@@ -62,6 +61,10 @@ public class OrderService {
                 user.setCustomerId(orderResponse.getCustomer().getId());
                 userRepository.editUserCustomerId(user);
             }
+
+            Timer timer = new Timer();
+            TimerTask task = new GetStatus(timer, 0, orderResponse.getId(), revolutService, orderRepository, this);
+            timer.schedule(task, 30000);
         } else {
             PayPalOrder order1 = new PayPalOrder("CAPTURE", "EUR", String.valueOf(price));
             PayPalOrderResponse orderResp;
@@ -72,6 +75,9 @@ public class OrderService {
         }
         DbOrder billingOrder = new DbOrder(order, orderResponse, aggregatedAmount);
         orderRepository.order(billingOrder);
+        for (ItemToAdd item : order.getItems()) {
+            orderRepository.addOrderProduct(item.getProductId(), item.getQuantity(), billingOrder.getId());
+        }
         return orderResponse;
     }
 
@@ -79,7 +85,7 @@ public class OrderService {
         StringBuilder emailText = new StringBuilder("Поръчката ти е обработена. \nПробукти в поръчката: \n");
         for (ItemToAdd item : order.getItems()) {
             Long productId = item.getProductId();
-            orderRepository.deleteFromCart(productId, order.getUserId());
+            //orderRepository.deleteFromCart(productId, order.getUserId());
             orderRepository.editQuantity(productId, item.getQuantity(), "-");
             orderRepository.addOrderToProduct(productId, item.getQuantity());
             String productName = productRepository.getProduct(productId).getName();
@@ -103,9 +109,8 @@ public class OrderService {
     public CustomerPaymentMethods getClientPaymentMethods(User user) {
         if (user == null || user.getCustomerId() == null)
             return null;
-
-        return revolutService.getCustomerPaymentMethods(user.getCustomerId());
-        //return revolutService.getCustomerPaymentMethods("4eba127f-4586-4b3b-8381-59239ff7ab9f");
+        PaymentMethods[] resp = revolutService.getCustomerPaymentMethods(user.getCustomerId());
+        return new CustomerPaymentMethods(resp);
     }
 
     public void pay(PayDto pay) {

@@ -23,7 +23,6 @@ public class RevolutService {
         Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");
         headers.put("Authorization", "Bearer " + token);
-        //headers.put("Content-Type", "application/json");
         headers.put("Revolut-Api-Version", "2023-09-01");
 
         return headers;
@@ -42,9 +41,9 @@ public class RevolutService {
         return requestService.request(null, path, "GET", OrderResponse.class, getHeaders(token));
     }
 
-    public CustomerPaymentMethods getCustomerPaymentMethods(String customerId) {
+    public PaymentMethods[] getCustomerPaymentMethods(String customerId) {
         String path = customerPath + "/" + customerId + "/payment-methods";
-        return requestService.request(null, path, "GET", CustomerPaymentMethods.class, getHeaders(token));
+        return requestService.request(null, path, "GET", PaymentMethods[].class, getHeaders(token));
     }
 
     public void deleteCustomerPaymentMethod(String methodId, String customerId) {

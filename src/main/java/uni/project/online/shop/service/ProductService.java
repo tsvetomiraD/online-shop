@@ -1,10 +1,11 @@
 package uni.project.online.shop.service;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uni.project.online.shop.model.AvgRating;
+import uni.project.online.shop.model.Type;
 import uni.project.online.shop.model.Product;
+import uni.project.online.shop.model.TypesForCategory;
 import uni.project.online.shop.repository.ProductRepository;
 
 import java.util.ArrayList;
@@ -139,5 +140,25 @@ public class ProductService {
             res.add(productRepository.getProduct(id));
         }
         return res;
+    }
+
+    public List<Product> getAll() {
+        return productRepository.getAll();
+    }
+
+    public List<TypesForCategory> getAllCategories() {
+        List<Type> categories =  productRepository.getAllCategories();
+        List<TypesForCategory> r = new ArrayList<>();
+        for (Type type : categories) {
+            List<Type> types = productRepository.getTypesForCategory(type.getId());
+            TypesForCategory typesForCategory = new TypesForCategory(type, types);
+            r.add(typesForCategory);
+        }
+        return r;
+    }
+
+    public TypesForCategory getCategoryByName(String name) {
+        Type category = productRepository.getCategoryByName(name);
+        return new TypesForCategory(category, productRepository.getTypesForCategory(category.getId()));
     }
 }

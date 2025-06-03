@@ -15,7 +15,7 @@ public interface OrderRepository {
     @Select("SELECT * FROM promo_code WHERE code = #{code}")
     Code checkCode(String code);
 
-    @Select("SELECT percents FROM promo_code " +
+    @Select("SELECT percentage FROM promo_code " +
             "WHERE code = #{code} AND NOW() < expiration ")
     Integer checkCode1(String code);
 
@@ -28,7 +28,7 @@ public interface OrderRepository {
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void order(DbOrder order);
 
-    @Delete("DELETE FROM cart WHERE product_id = #{productId} AND user_id = ")
+    @Delete("DELETE FROM cart WHERE product_id = #{productId} AND user_id = #{userId}")
     void deleteFromCart(Long productId, Long userId);
 
     @Update("UPDATE product SET quantity = quantity ${plusOrMinus} #{quantity} WHERE id = #{productId}")

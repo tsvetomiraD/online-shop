@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 public class PaymentMethods {
     private String id;
     private String type;
-    private String labelName;
     @SerializedName("saved_for")
     private String savedFor;
     @SerializedName("method_details")
@@ -42,13 +41,5 @@ public class PaymentMethods {
 
     public void setMethodDetails(MethodDetails methodDetails) {
         this.methodDetails = methodDetails;
-    }
-
-    public String getLabelName() {
-        return labelName;
-    }
-
-    public void setLabelName(String labelName) {
-        this.labelName = labelName;
     }
 }

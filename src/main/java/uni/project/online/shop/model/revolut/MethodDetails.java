@@ -9,8 +9,8 @@ public class MethodDetails {
     private int expiryMonth;
     @SerializedName("expiry_year")
     private int expiryYear;
-    @SerializedName("cardholder_name")
-    private String cardholderName;
+//    @SerializedName("cardholder_name")
+//    private String cardholderName;
     private String brand;
     private String funding;
     private String issuer;
@@ -51,13 +51,13 @@ public class MethodDetails {
         this.expiryYear = expiryYear;
     }
 
-    public String getCardholderName() {
-        return cardholderName;
-    }
-
-    public void setCardholderName(String cardholderName) {
-        this.cardholderName = cardholderName;
-    }
+//    public String getCardholderName() {
+//        return cardholderName;
+//    }
+//
+//    public void setCardholderName(String cardholderName) {
+//        this.cardholderName = cardholderName;
+//    }
 
     public String getBrand() {
         return brand;

@@ -12,8 +12,6 @@ import java.util.List;
 public class FavoritesService {
     @Autowired
     FavoritesRepository favoritesRepository;
-    @Autowired
-    AuthService authService;
 
     public void addFavorite(Long productId, Long userId) {
         if (favoritesRepository.favorite(productId, userId) != null)

@@ -56,9 +56,9 @@ public interface UserRepository {
     @Select("SELECT * FROM user WHERE id = #{userId}")
     User getUserById(Long userId);
 
-    @Update("UPDATE user SET customer_id = customerId WHERE id = #{id}")
+    @Update("UPDATE user SET customer_id = #{customerId} WHERE id = #{id}")
     void editUserCustomerId(User user);
 
-    @Select("SELECT date_created, price, status, id FROM order WHERE user_id = #{userId}")
+    @Select("SELECT date_created, total_price AS price, `status`, id FROM `order` WHERE user_id = #{userId}")
     List<PurchaseHistory> getUserPurchaseHistory(Long userId);
 }

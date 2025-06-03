@@ -27,6 +27,6 @@ public interface AuthApi {
     @PostMapping("/reset-forgotten-password")
     public boolean resetForgottenPassword(@RequestParam("token") String token, @RequestParam("password") String password);
 
-    @PostMapping("/send-promo-code")
+    @PostMapping("/subscribe")
     public void sendPromoCode(@RequestParam("email") String email);
 }

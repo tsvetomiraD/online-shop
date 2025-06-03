@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 import uni.project.online.shop.model.Product;
+import uni.project.online.shop.model.TypesForCategory;
 
 import java.util.List;
 
@@ -15,7 +16,40 @@ public interface ProductsApi {
                                              @RequestParam(required = false) String brand, @RequestParam(required = false) Double price,
                                              @RequestParam(required = false) Double rate, @RequestParam(required = false) String targetGroup);
 
-//    @Operation(tags = {"Product"}, summary = "login")
+    @Operation(tags = {"Product"}, summary = "login")
+    @GetMapping("/sale")
+    public List<Product> getProductsOnSale();
+
+    @Operation(tags = {"Product"}, summary = "login")
+    @GetMapping("/home")
+    public List<Product> getHomeScreenProducts(@RequestParam String category);
+
+    @Operation(tags = {"Product"}, summary = "login")
+    @GetMapping("/brand/{brand}")
+    public List<Product> getProductsByBrand(@PathVariable("brand") String brand);
+
+    @Operation(tags = {"Product"}, summary = "login")
+    @GetMapping()
+    public List<Product> searchProducts(@RequestParam("search") String search);
+
+    @GetMapping("/{id}")
+    public Product getProduct(@PathVariable("id") Long id);
+
+    @GetMapping("/{id}/rate")
+    public void rateProduct(@PathVariable("id") Long id, @RequestParam Double rate, HttpSession session);
+
+    @PostMapping("/by-ids")
+    public List<Product> getProductsByIds(@RequestBody List<Long> ids);
+    @GetMapping("/all")
+    public List<Product> getAll();
+
+    @GetMapping("/categories")
+    public List<TypesForCategory> getAllCategories();
+
+    @GetMapping("/categories/{name}")
+    public TypesForCategory getCategoryByName(@PathVariable String name);
+
+    //    @Operation(tags = {"Product"}, summary = "login")
 //    @GetMapping("/face-care")
 //    public List<Product> getFaceCare(@RequestParam(value = "sort", required = false) String sort, @RequestParam(value = "type", required = false) String type,
 //                                     @RequestParam(value = "brand", required = false) String brand, @RequestParam(value = "price", required = false) Double price,
@@ -45,39 +79,11 @@ public interface ProductsApi {
 //                                        @RequestParam(value = "brand", required = false) String brand, @RequestParam(value = "price", required = false) Double price,
 //                                        @RequestParam(value = "rate", required = false) Double rate, @RequestParam(value = "targetGroup", required = false) String targetGroup);
 
-    @Operation(tags = {"Product"}, summary = "login")
-    @GetMapping("/sale")
-    public List<Product> getProductsOnSale();
-
-    @Operation(tags = {"Product"}, summary = "login")
-    @GetMapping("/home")
-    public List<Product> getHomeScreenProducts(@RequestParam String category);
-
-//    @Operation(tags = {"Product"}, summary = "login")
+    //    @Operation(tags = {"Product"}, summary = "login")
 //    @GetMapping("/rate")
 //    public List<Product> getHighRateProducts();
 //
 //    @Operation(tags = {"Product"}, summary = "login")
 //    @GetMapping("/orders")
 //    public List<Product> getMostOrderedProducts();
-
-    @Operation(tags = {"Product"}, summary = "login")
-    @GetMapping("/brand/{brand}")
-    public List<Product> getProductsByBrand(@PathVariable("brand") String brand);
-
-    @Operation(tags = {"Product"}, summary = "login")
-    @GetMapping()
-    public List<Product> searchProducts(@RequestParam("search") String search);
-
-    @Operation(tags = {"Product"}, summary = "login")
-    @GetMapping("/{id}")
-    public Product getProduct(@PathVariable("id") Long id);
-
-    @Operation(tags = {"Product"}, summary = "login")
-    @GetMapping("/{id}/rate")
-    public void rateProduct(@PathVariable("id") Long id, @RequestParam Double rate, HttpSession session);
-
-    @Operation(tags = {"Product"}, summary = "login")
-    @PostMapping("/by-ids")
-    public List<Product> getProductsByIds(@RequestBody List<Long> ids);
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import uni.project.online.shop.api.ProductsApi;
 import uni.project.online.shop.model.Product;
+import uni.project.online.shop.model.TypesForCategory;
 import uni.project.online.shop.service.AuthService;
 import uni.project.online.shop.service.ProductService;
 
@@ -91,5 +92,21 @@ public class ProductsController implements ProductsApi {
     @Override
     public List<Product> getProductsByIds(List<Long> ids) {
         return productService.getProductsByIds(ids);
+    }
+
+    @Override
+    public List<Product> getAll() {
+        return productService.getAll();
+    }
+
+    @Override
+    public List<TypesForCategory> getAllCategories() {
+        return productService.getAllCategories();
+    }
+
+    @Override
+    public TypesForCategory getCategoryByName(String name) {
+        return productService.getCategoryByName(name);
+        
     }
 }

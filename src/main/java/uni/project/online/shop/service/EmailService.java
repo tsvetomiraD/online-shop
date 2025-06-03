@@ -14,16 +14,8 @@ public class EmailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("Account activation");
-        String link = "http://localhost:8080/auth/register/complete?token=" + token;
+        String link = "http://localhost:5173/email-confirmation?token=" + token;
         message.setText("Click link to activate account: " + link);
-        emailSender.send(message);
-    }
-
-    public void sendPromoCode(String code, String email) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setSubject("Account activation promo code");
-        message.setText("Your code: " + code);
         emailSender.send(message);
     }
 
@@ -33,6 +25,14 @@ public class EmailService {
         message.setSubject("Reset password");
         String link = "http://localhost:8080/auth/reset-forgotten-password?token=" + token;
         message.setText("Click link to reset password: " + link);
+        emailSender.send(message);
+    }
+
+    public void sendPromoCode(String code, String email) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject("Sign up for newsletter promo code");
+        message.setText("Thank you for your subscribe! Enjoy your 5% of promo code: " + code);
         emailSender.send(message);
     }
 

@@ -2,7 +2,9 @@ package uni.project.online.shop.repository;
 
 import org.apache.ibatis.annotations.*;
 import uni.project.online.shop.model.AvgRating;
+import uni.project.online.shop.model.Type;
 import uni.project.online.shop.model.Product;
+import uni.project.online.shop.model.TypesForCategory;
 
 import java.util.List;
 import java.util.Map;
@@ -77,4 +79,24 @@ public interface ProductRepository { //todo add left joins
     @Update("UPDATE product SET rate = #{rate} " +
             "WHERE id = #{id}")
     void setRate(Long id, double rate);
+
+    @Select("SELECT p.*, t.name AS type, c.name AS category, b.name AS brand, tg.name AS targetGroup " +
+            "FROM product p " +
+            "LEFT JOIN type t ON p.type_id = t.id " +
+            "LEFT JOIN category c ON p.category_id = c.id " +
+            "LEFT JOIN brand b ON p.brand_id = b.id " +
+            "LEFT JOIN target_group tg ON p.target_group_id = tg.id ")
+    List<Product> getAll();
+
+    @Select("SELECT * FROM category")
+    List<Type> getAllCategories();
+
+    @Select("SELECT DISTINCT t.* " +
+            "FROM product p " +
+            "LEFT JOIN type t ON p.type_id = t.id " +
+            "WHERE p.category_id = #{id} ")
+    List<Type> getTypesForCategory(Long id);
+
+    @Select("SELECT * FROM category WHERE name = #{name}")
+    Type getCategoryByName(String name);
 }

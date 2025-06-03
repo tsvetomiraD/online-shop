@@ -25,7 +25,6 @@ public class PayPalService {
         headers.put("Authorization", "Bearer " + token);
         String uuid = String.valueOf(UUID.randomUUID());
         headers.put("PayPal-Request-Id", uuid);
-        //headers.put("Content-Type", "application/json");
 
         return headers;
     }
